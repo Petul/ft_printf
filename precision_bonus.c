@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 15:42:12 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/10 16:02:24 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:12:40 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*apply_precision(t_fspec *s, char *num)
 			precision++;
 		num++;
 	}
+	num -= padding;
 	if (precision >= s->precision)
 		return (num);
 	num_len = ft_strlen(num);
@@ -51,6 +52,6 @@ char	*apply_precision(t_fspec *s, char *num)
 			return (NULL);
 		num = new_num;
 	}
-	ft_memset(num + missing_space, '0', padding);
+	ft_memset(num + padding - (s->precision - ft_strlen(num + padding)), '0', s->precision - ft_strlen(num + padding));
 	return (num);
 }
