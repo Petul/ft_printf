@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 14:04:25 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:14 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:56:52 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ static ssize_t get_precision(char *conversion)
 	if (!dot)
 		return (0);
 	i = 0;
-	while (ft_isdigit(dot[i]))
+	while (ft_isdigit(dot[i + 1]))
 		i++;	
 	if (!i)
 		return (0);
-	numstr = ft_substr(dot, 0, i);
+	numstr = ft_substr(dot, 1, i);
 	if (!numstr)
 		return (-1);
 	num = ft_atoi(numstr);
@@ -111,7 +111,7 @@ static BOOL get_zero_padding(char *conversion)
 	{
 		if (ft_isdigit(*conversion))
 		{
-			if (*conversion == 0)
+			if (*conversion == '0')
 				return (TRUE);
 			return (FALSE);
 		}

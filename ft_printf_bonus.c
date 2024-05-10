@@ -31,40 +31,40 @@ size_t	get_format_len(char *fstart, char *format)
 	return (len);
 }
 
-size_t	process_fspec(char *fstart, va_list *args, size_t *loc)
+BOOL	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
 {
 	char	format;
-	int		written;
 	size_t	flen;
+	BOOL	t;
 
-	written = 0;
+	t = TRUE;
 	flen = get_format_len(fstart, &format);
 	if (format == 'c')
-		written += convert_char(fstart, flen, va_arg(*args, int));
+		t = convert_char(fstart, flen, va_arg(*args, int), written);
 	else if (format == 's')
-		written += print_string(va_arg(*args, char *));
+		t = convert_string(fstart, flen, va_arg(*args, char *), written);
 	else if (format == 'p')
-		written += print_pointer(va_arg(*args, void *));
+	 	t = convert_pointer(fstart, flen, va_arg(*args, void *), written);
 	else if (format == 'd' || format == 'i')
-		written += print_decimal(va_arg(*args, int));
-	else if (format == 'u')
-		written += print_uint(va_arg(*args, unsigned int));
-	else if (format == 'x')
-		written += print_hex_lower(va_arg(*args, int));
-	else if (format == 'X')
-		written += print_hex_upper(va_arg(*args, int));
-	else if (format == '%')
-		written += print_char('%');
+	 	t = convert_decimal(fstart, flen, va_arg(*args, int), written);
+	// else if (format == 'u')
+	// 	written += print_uint(va_arg(*args, unsigned int));
+	// else if (format == 'x')
+	// 	written += print_hex_lower(va_arg(*args, int));
+	// else if (format == 'X')
+	// 	written += print_hex_upper(va_arg(*args, int));
+	// else if (format == '%')
+	// 	written += print_char('%');
 	*loc += flen + 1;
-	return (written);
+	return (t);
 }
 
 int	ft_printf(const char *fstring, ...)
 {
 	va_list	args;
 	size_t	loc;
-	int		written;
-	int		t;
+	size_t	written;
+	BOOL	t;
 
 	va_start(args, fstring);
 	written = 0;
@@ -73,15 +73,13 @@ int	ft_printf(const char *fstring, ...)
 	{
 		if (fstring[loc] == '%')
 		{
-			t = process_fspec((char *)fstring + loc, &args, &loc);
-			if (t < 0)
+			t = process_fspec((char *)fstring + loc, &args, &loc, &written);
+			if (t == FALSE)
 				return (-1);
-			written += t;
 			continue ;
 		}
-		if (print_char(fstring[loc++]) < 0)
+		if (print_char(fstring[loc++], &written) == FALSE)
 			return (-1);
-		written++;
 	}
 	va_end(args);
 	return (written);
