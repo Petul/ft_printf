@@ -104,7 +104,7 @@ BOOL	convert_decimal(char *fstr, size_t len, int data, size_t *written)
 	num = ft_itoa(data);
 	num = add_padding(s, num);
 	num = apply_precision(s, num);
-	move_sign_to_start(num);
+	//move_sign_to_start(num);
 	if (print_string(num, written) == FALSE)
 		free_and_return_false(s);
 	free(s);

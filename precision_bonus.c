@@ -14,44 +14,64 @@
 #include "libft/libft.h"
 #include "ft_printf_bonus.h"
 
-char	*apply_precision(t_fspec *s, char *num)
+static char	*increase_num_len(size_t precision, size_t padding, size_t base_num_len, char *num)
 {
-	size_t	precision;
-	size_t	num_len;
-	size_t	padding;
-	int		missing_space;
-	char	*extra;
 	char	*new_num;
+	char	*zeros;
 
-	padding = 0;
-	precision = 0;
-	while (!ft_strchr("123456789", *num) && *num)
+	zeros = ft_calloc(precision - base_num_len - padding, sizeof(char));
+	if (!zeros)
 	{
-		padding++;
-		if (*num == '0')
-			precision++;
-		num++;
-	}
-	num -= padding;
-	if (precision >= s->precision)
-		return (num);
-	num_len = ft_strlen(num);
-	missing_space = (s->precision - precision) - padding;
-	if (missing_space > 0)
-	{
-		extra = ft_calloc(missing_space + 1, sizeof(char));
-		if (!extra)
-		{
-			free(num);
-			return (NULL);
-		}
-		ft_memset(extra, '0', missing_space);
-		new_num = ft_strjoin(extra, num);
 		free(num);
-		if (!new_num)
-			return (NULL);
-		num = new_num;
+		return (NULL);
 	}
-	ft_memset(num + padding - (s->precision - ft_strlen(num + padding)), '0', s->precision - ft_strlen(num + padding));
+	ft_memset(zeros, '0', precision - base_num_len - padding);
+	new_num = ft_strjoin(zeros, num);
+	if (!new_num)
+	{
+		free(num);
+		free(zeros);
+		return (NULL);
+	}
+	free(num);
+	free(zeros);
+	num = new_num;
 	return (num);
 }
+
+static void	float_sign(char *num)
+{
+	char	*sign;
+	char	*zero;
+
+	sign = ft_strchr(num, '-');
+	zero = ft_strchr(num, '0');
+	if (!sign || !zero)
+		return ;
+	*zero = '-';
+	*sign = '0';
+}
+
+char	*apply_precision(t_fspec *s, char *num)
+{
+	size_t	padding;
+	size_t	base_num_len;
+
+	padding = 0;
+ 	while (!ft_strchr("-123456789", num[padding]) && num[padding]) // Count the amount of padding
+ 	 	padding++;
+	base_num_len = ft_strlen(num + padding); //TODO: Dont count sign in base_num_len!
+	if ((int)(s->precision - base_num_len) > (int)padding) //there is not enough space in the num buffer so we need to grow it
+	{
+		num = increase_num_len(s->precision, padding, base_num_len, num);
+		if (!num)
+			return (NULL);
+	}
+	if ((int)(s->precision -  base_num_len) > 0)
+	{
+		ft_memset(num + ft_strlen(num) - s->precision, '0', s->precision - base_num_len);
+		float_sign(num);
+	}
+	return (num);
+}
+
