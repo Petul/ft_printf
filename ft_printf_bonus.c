@@ -47,8 +47,8 @@ BOOL	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
 	 	t = convert_pointer(fstart, flen, va_arg(*args, void *), written);
 	else if (format == 'd' || format == 'i')
 	 	t = convert_decimal(fstart, flen, va_arg(*args, int), written);
-	// else if (format == 'u')
-	// 	written += print_uint(va_arg(*args, unsigned int));
+	else if (format == 'u')
+	 	t = convert_unsigned(fstart, flen, va_arg(*args, unsigned int), written);
 	// else if (format == 'x')
 	// 	written += print_hex_lower(va_arg(*args, int));
 	// else if (format == 'X')

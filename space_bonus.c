@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   space_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 14:53:54 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/10 15:03:21 by pleander         ###   ########.fr       */
+/*   Created: 2024/05/14 13:58:17 by pleander          #+#    #+#             */
+/*   Updated: 2024/05/14 14:16:06 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft/libft.h"
+#include "ft_printf_bonus.h"
 
-void	float_sign(char *num)
+char	*apply_space(t_fspec *s, char *num)
 {
-	char	*sign;
-	char	*zero;
+	char	*new_num;
 
-	sign = ft_strchr(num, '-');
-	zero = ft_strchr(num, '0');
-	if (!sign || !zero)
-		return ;
-	*zero = '-';
-	*sign = '0';
+	if (!s->space_before_pos || ft_strchr(num, '-'))
+		return (num);
+	new_num = ft_strjoin(" ", num);
+	free(num);
+	return(new_num);
 }

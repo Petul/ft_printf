@@ -37,14 +37,14 @@ BOOL print_nchars(int c, size_t n, size_t *written)
 	return (TRUE);
 }
 
-BOOL	print_string(char *data, size_t *written)
+BOOL	print_string(char *data, size_t n, size_t *written)
 {
-	int	i;
+	size_t	i;
 
 	if (data == NULL)
-		return (print_string(NULL_STR, written));
+		return (print_string(NULL_STR, ft_strlen(NULL_STR), written));
 	i = 0;
-	while (data[i])
+	while (data[i] && i < n)
 	{
 		if (print_char(data[i], written) == FALSE)
 			return (FALSE);
@@ -60,10 +60,9 @@ BOOL	print_pointer(char *addr, size_t *written)
 	if (!addr)
 		return (FALSE);
 	str = ft_strjoin("0x", addr);
-	free(addr);
 	if (!str)
 		return (FALSE);
-	if (print_string(str, written) == FALSE)
+	if (print_string(str, ft_strlen(str), written) == FALSE)
 	{
 		free(str);
 		return (FALSE);
@@ -100,6 +99,8 @@ char	*add_padding(t_fspec *s, char *data)
 		return (NULL);
 	}
 	free(data);
+	free(padding);
+	float_sign(new_data);
 	return (new_data);
 }	
 
@@ -118,4 +119,3 @@ BOOL	print_padding(t_fspec *s, size_t *written, size_t word_len)
 		return (FALSE);
 	return (TRUE);
 }
-

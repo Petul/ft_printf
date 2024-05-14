@@ -38,6 +38,8 @@ t_fspec	*parse_conversion(char *conversion)
 		s->space_before_pos = TRUE;
 	if (ft_strchr(conversion, '+'))
 		s->space_before_signed = TRUE;
+	if (ft_strchr(conversion, '.'))
+		s->has_dot = TRUE;
 	field_width = get_field_width(conversion);
 	if (field_width < 0)
 		free_and_return_null(s);

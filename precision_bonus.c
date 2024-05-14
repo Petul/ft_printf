@@ -39,29 +39,19 @@ static char	*increase_num_len(size_t precision, size_t padding, size_t base_num_
 	return (num);
 }
 
-static void	float_sign(char *num)
-{
-	char	*sign;
-	char	*zero;
-
-	sign = ft_strchr(num, '-');
-	zero = ft_strchr(num, '0');
-	if (!sign || !zero)
-		return ;
-	*zero = '-';
-	*sign = '0';
-}
 
 char	*apply_precision(t_fspec *s, char *num)
 {
 	size_t	padding;
 	size_t	base_num_len;
+	BOOL	sign;
 
+	sign = ft_strchr(num, '-') != 0;
 	padding = 0;
- 	while (!ft_strchr("-123456789", num[padding]) && num[padding]) // Count the amount of padding
+ 	while (!ft_strchr("-123456789", num[padding]) && num[padding])
  	 	padding++;
-	base_num_len = ft_strlen(num + padding); //TODO: Dont count sign in base_num_len!
-	if ((int)(s->precision - base_num_len) > (int)padding) //there is not enough space in the num buffer so we need to grow it
+	base_num_len = ft_strlen(num + padding) - sign;
+	if ((int)(s->precision - base_num_len) > (int)padding)
 	{
 		num = increase_num_len(s->precision, padding, base_num_len, num);
 		if (!num)
@@ -69,7 +59,7 @@ char	*apply_precision(t_fspec *s, char *num)
 	}
 	if ((int)(s->precision -  base_num_len) > 0)
 	{
-		ft_memset(num + ft_strlen(num) - s->precision, '0', s->precision - base_num_len);
+		ft_memset(num + ft_strlen(num) - sign - s->precision, '0', s->precision - base_num_len);
 		float_sign(num);
 	}
 	return (num);
