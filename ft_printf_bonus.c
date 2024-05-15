@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:57:20 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/08 16:09:20 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/15 08:57:23 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ BOOL	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
 	 	t = convert_decimal(fstart, flen, va_arg(*args, int), written);
 	else if (format == 'u')
 	 	t = convert_unsigned(fstart, flen, va_arg(*args, unsigned int), written);
-	// else if (format == 'x')
-	// 	written += print_hex_lower(va_arg(*args, int));
-	// else if (format == 'X')
-	// 	written += print_hex_upper(va_arg(*args, int));
-	// else if (format == '%')
-	// 	written += print_char('%');
+	else if (format == 'X')
+		t = convert_hex_upper(fstart, flen, va_arg(*args, int), written);
+	else if (format == 'x')
+		t = convert_hex_lower(fstart, flen, va_arg(*args, int), written);
+	else if (format == '%')
+	 	t = print_char('%', written);
 	*loc += flen + 1;
 	return (t);
 }

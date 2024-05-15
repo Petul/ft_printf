@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:48:45 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/10 15:42:58 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/15 13:31:49 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ BOOL	print_string(char *data, size_t n, size_t *written)
 {
 	size_t	i;
 
-	if (data == NULL)
-		return (print_string(NULL_STR, ft_strlen(NULL_STR), written));
+	// if (data == NULL)
+	// 	return (print_string(NULL_STR, ft_strlen(NULL_STR), written));
 	i = 0;
 	while (data[i] && i < n)
 	{
@@ -92,14 +92,10 @@ char	*add_padding(t_fspec *s, char *data)
 		new_data = ft_strjoin(data, padding);
 	else
 		new_data = ft_strjoin(padding, data);
-	if (!new_data)
-	{
-		free(padding);
-		free(data);
-		return (NULL);
-	}
-	free(data);
 	free(padding);
+	free(data);
+	if (!new_data)
+		return (NULL);
 	float_sign(new_data);
 	return (new_data);
 }	

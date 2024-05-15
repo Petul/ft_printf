@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 14:04:25 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/10 15:56:52 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/15 08:31:38 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_fspec	*parse_conversion(char *conversion)
 	if (ft_strchr(conversion, ' '))
 		s->space_before_pos = TRUE;
 	if (ft_strchr(conversion, '+'))
-		s->space_before_signed = TRUE;
+		s->plus_before_pos = TRUE;
 	if (ft_strchr(conversion, '.'))
 		s->has_dot = TRUE;
 	field_width = get_field_width(conversion);

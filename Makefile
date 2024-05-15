@@ -6,7 +6,7 @@
 #    By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 14:57:36 by pleander          #+#    #+#              #
-#    Updated: 2024/05/14 14:05:50 by pleander         ###   ########.fr        #
+#    Updated: 2024/05/15 15:20:12 by pleander         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,9 @@ BONUS_CFILES := ft_printf_bonus.c \
 	precision_bonus.c \
 	printers_bonus.c \
 	utils_bonus.c \
+	plus_bonus.c \
+	poundsign_bonus.c \
+	field_width_bonus.c \
 	space_bonus.c
 
 BONUS_OBJECTS := $(BONUS_CFILES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:57:58 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/14 14:04:25 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:12:42 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_fspec
 	BOOL zero_padding;
 	BOOL negative_field_width;
 	BOOL space_before_pos;
-	BOOL space_before_signed;
+	BOOL plus_before_pos;
 	BOOL has_dot;
 	size_t min_field_width;
 	size_t precision;
@@ -58,6 +58,13 @@ BOOL	convert_unsigned(char *fstr, size_t len, unsigned int data, size_t *written
 char	*add_padding(t_fspec *s, char *data);
 char	*apply_precision(t_fspec *s, char *num);
 void	float_sign(char *num);
-char	*apply_space(t_fspec *s, char *num);
+char	*apply_plus(t_fspec *s, char *num);
+BOOL	convert_hex_upper(char *fstr, size_t len, int data, size_t *written);
+BOOL	convert_hex_lower(char *fstr, size_t len, int data, size_t *written);
+char	*apply_alternate_hex_form(t_fspec *s, char *num, char *pre_str);
+char	*apply_field_width(t_fspec *s, char *data);
+int		only_zero_or_space(char *num);
+char	*apply_space_before_pos(t_fspec *s, char *num);
+void	float_space(char *num);
 
 #endif
