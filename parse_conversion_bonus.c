@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 14:04:25 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 08:31:38 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:09:39 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_fspec	*parse_conversion(char *conversion)
 	ssize_t precision;
 
 	s = malloc(sizeof(t_fspec));
+	if (!s)
+		return (NULL);
 	ft_bzero(s, sizeof(t_fspec));
 	if (ft_strchr(conversion, '#'))
 		s->alternate_form = TRUE;
@@ -42,11 +44,11 @@ t_fspec	*parse_conversion(char *conversion)
 		s->has_dot = TRUE;
 	field_width = get_field_width(conversion);
 	if (field_width < 0)
-		free_and_return_null(s);
+		return (free_and_return_null(s));
 	s->min_field_width = field_width;
 	precision = get_precision(conversion);
 	if (precision < 0)
-		free_and_return_null(s);
+		return (free_and_return_null(s));
 	s->precision = precision;
 	return (s);
 }

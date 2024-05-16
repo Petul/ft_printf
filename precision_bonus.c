@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 15:42:12 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 15:59:52 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:29:34 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ char	*apply_precision(t_fspec *s, char *num)
 	{
 		pre = ft_calloc(s->precision - base_num_len + 1, sizeof(char));
 		if (!pre)
+		{
+			free(num);
 			return (NULL);
+		}
 		ft_memset(pre, '0', s->precision - base_num_len);
 		new_num = ft_strjoin(pre, num);
 		free(pre);
@@ -40,4 +43,11 @@ char	*apply_precision(t_fspec *s, char *num)
 		*num = 0;
 	float_sign(num);
 	return (num);
+}
+
+char	*apply_string_precision(t_fspec *s, char *str)
+{
+	if (s->has_dot && s->precision < ft_strlen(str))
+		str[s->precision] = 0;
+	return (str);
 }

@@ -66,5 +66,6 @@ char	*apply_field_width(t_fspec *s, char *data);
 int		only_zero_or_space(char *num);
 char	*apply_space_before_pos(t_fspec *s, char *num);
 void	float_space(char *num);
+char	*apply_string_precision(t_fspec *s, char *str);
 
 #endif

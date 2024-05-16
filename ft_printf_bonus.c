@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:57:20 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 08:57:23 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:29:01 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 #include "ft_printf_bonus.h"
 #include "libft/libft.h"
 
-size_t	get_format_len(char *fstart, char *format)
+static size_t	get_format_len(char *fstart, char *format)
 {
 	size_t	len;
 
-	len = 0;
-	if (fstart[len + 1] == '%')
+	len = 1;
+	while (fstart[len])
 	{
-		*format = '%';
-		return (1);
-	}
-	while (!ft_isalpha(fstart[len]))
+		if (ft_strchr("cspdiuXx%", fstart[len]))
+		{
+			*format = fstart[len];
+			break ;
+		}
 		len++;
-	*format = fstart[len];
+	}
 	return (len);
 }
 
@@ -37,6 +38,7 @@ BOOL	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
 	size_t	flen;
 	BOOL	t;
 
+	format = 0;
 	t = TRUE;
 	flen = get_format_len(fstart, &format);
 	if (format == 'c')
@@ -54,11 +56,10 @@ BOOL	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
 	else if (format == 'x')
 		t = convert_hex_lower(fstart, flen, va_arg(*args, int), written);
 	else if (format == '%')
-	 	t = print_char('%', written);
+	 	t = convert_char(fstart, flen, '%', written);
 	*loc += flen + 1;
 	return (t);
 }
-
 int	ft_printf(const char *fstring, ...)
 {
 	va_list	args;

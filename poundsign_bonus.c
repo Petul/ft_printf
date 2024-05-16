@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:17:43 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 11:47:18 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:32:14 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ char	*apply_alternate_hex_form(t_fspec *s, char *num, char *pre_str)
 		i++;
 	sub1 = ft_substr(num, 0, i);
 	if (!sub1)
+	{
+		free(num);
 		return (NULL);
+	}
 	sub2 = ft_substr(num, i, ft_strlen(num) - i);
 	if (!sub2)
 	{
+		free(num);
 		free(sub1);
 		return (NULL);
 	}
@@ -39,7 +43,7 @@ char	*apply_alternate_hex_form(t_fspec *s, char *num, char *pre_str)
 	free(sub1);
 	if (!new_num)
 	{
-		free(sub1);
+		free(num);
 		free(sub2);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:09:39 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 16:17:35 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:18:26 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ char	*apply_field_width(t_fspec *s, char *data)
 	if (data_len > s->min_field_width)
 		return (data);
 	padding = ft_calloc(s->min_field_width - data_len + 1, sizeof(char));
-
+	if (!padding)
+	{
+		free(data);
+		return (NULL);
+	}
 	ft_memset(padding, (int)get_padding_char(s), s->min_field_width - data_len);
 	if (s->negative_field_width)
 		padded_data = ft_strjoin(data, padding);
@@ -46,6 +50,4 @@ char	*apply_field_width(t_fspec *s, char *data)
 	if (get_padding_char(s) == '0')
 		float_space(padded_data);
 	return (padded_data);
-
 }
-

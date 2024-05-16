@@ -21,8 +21,7 @@ OBJECTS := $(CFILES:.c=.o)
 
 BONUS_CFILES := ft_printf_bonus.c \
 	ft_utoa_base_bonus.c \
-	handlers2_bonus.c \
-	handlers_bonus.c \
+	conversions_bonus.c \
 	parse_conversion_bonus.c \
 	precision_bonus.c \
 	printers_bonus.c \
