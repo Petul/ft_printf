@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 14:53:54 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 16:11:43 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:49:04 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	float_sign(char *num)
 		sign_character = '-';
 	else if (ft_strchr(num, '+'))
 		sign_character = '+';
-	else 
+	else
 		return ;
 	sign = ft_strchr(num, sign_character);
 	zero = ft_strchr(num, '0');

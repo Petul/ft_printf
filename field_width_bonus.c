@@ -6,13 +6,20 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:09:39 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/16 15:18:26 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 16:44:39 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft/libft.h"
 #include "ft_printf_bonus.h"
+
+static void	*free_and_return_null(void	*d1)
+{
+	if (d1 != NULL)
+		free(d1);
+	return (NULL);
+}
 
 static char	get_padding_char(t_fspec *s)
 {
@@ -33,10 +40,7 @@ char	*apply_field_width(t_fspec *s, char *data)
 		return (data);
 	padding = ft_calloc(s->min_field_width - data_len + 1, sizeof(char));
 	if (!padding)
-	{
-		free(data);
-		return (NULL);
-	}
+		return (free_and_return_null(data));
 	ft_memset(padding, (int)get_padding_char(s), s->min_field_width - data_len);
 	if (s->negative_field_width)
 		padded_data = ft_strjoin(data, padding);

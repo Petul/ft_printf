@@ -6,60 +6,88 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:57:20 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/16 16:29:01 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 17:29:36 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include <stddef.h>
+#include <stdlib.h>
 #include "ft_printf_bonus.h"
 #include "libft/libft.h"
 
-static size_t	get_format_len(char *fstart, char *format)
+static t_bool	free_and_return(void *data, t_bool t)
+{
+	free(data);
+	return (t);
+}
+
+static t_fspec	*parse_fspec(char *fstr, size_t len)
+{
+	char	*conversion;
+	t_fspec	*s;
+
+	conversion = ft_substr(fstr, 0, len);
+	if (!conversion)
+		return (NULL);
+	s = parse_conversion(conversion);
+	free(conversion);
+	return (s);
+}
+
+static t_fspec	*get_format_spec(char *fstart)
 {
 	size_t	len;
+	t_fspec	*s;
+	char	format;
 
+	format = '\0';
 	len = 1;
 	while (fstart[len])
 	{
 		if (ft_strchr("cspdiuXx%", fstart[len]))
 		{
-			*format = fstart[len];
+			format = fstart[len];
 			break ;
 		}
 		len++;
 	}
-	return (len);
+	s = parse_fspec(fstart, len);
+	if (!s)
+		return (NULL);
+	s->format = format;
+	s->len = len;
+	return (s);
 }
 
-t_bool	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
+static t_bool	process_fspec(char *f, va_list *args, size_t *loc, size_t *w)
 {
-	char	format;
-	size_t	flen;
+	t_fspec	*s;
 	t_bool	t;
 
-	format = 0;
 	t = TRUE;
-	flen = get_format_len(fstart, &format);
-	if (format == 'c')
-		t = convert_char(fstart, flen, va_arg(*args, int), written);
-	else if (format == 's')
-		t = convert_string(fstart, flen, va_arg(*args, char *), written);
-	else if (format == 'p')
-	 	t = convert_pointer(fstart, flen, va_arg(*args, void *), written);
-	else if (format == 'd' || format == 'i')
-	 	t = convert_decimal(fstart, flen, va_arg(*args, int), written);
-	else if (format == 'u')
-	 	t = convert_unsigned(fstart, flen, va_arg(*args, unsigned int), written);
-	else if (format == 'X')
-		t = convert_hex_upper(fstart, flen, va_arg(*args, int), written);
-	else if (format == 'x')
-		t = convert_hex_lower(fstart, flen, va_arg(*args, int), written);
-	else if (format == '%')
-	 	t = convert_char(fstart, flen, '%', written);
-	*loc += flen + 1;
-	return (t);
+	s = get_format_spec(f);
+	if (!s)
+		return (FALSE);
+	if (s->format == 'c')
+		t = convert_char(s, va_arg(*args, int), w);
+	else if (s->format == 's')
+		t = convert_string(s, va_arg(*args, char *), w);
+	else if (s->format == 'p')
+		t = convert_pointer(s, va_arg(*args, void *), w);
+	else if (s->format == 'd' || s->format == 'i')
+		t = convert_decimal(s, va_arg(*args, int), w);
+	else if (s->format == 'u')
+		t = convert_unsigned(s, va_arg(*args, unsigned int), w);
+	else if (s->format == 'X')
+		t = convert_hex_upper(s, va_arg(*args, int), w);
+	else if (s->format == 'x')
+		t = convert_hex_lower(s, va_arg(*args, int), w);
+	else if (s->format == '%')
+		t = convert_char(s, '%', w);
+	*loc += s->len + 1;
+	return (free_and_return(s, t));
 }
+
 int	ft_printf(const char *fstring, ...)
 {
 	va_list	args;

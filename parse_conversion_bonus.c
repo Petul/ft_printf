@@ -6,25 +6,22 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 14:04:25 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/16 15:09:39 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 17:46:23 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <sys/types.h>
 #include "ft_printf_bonus.h"
 #include "libft/libft.h"
 
-static ssize_t get_field_width(char *conversion);
-static ssize_t get_precision(char *conversion);
-static t_bool get_zero_padding(char *conversion);
-static void *free_and_return_null(t_fspec *s);
+static t_bool	set_field_width(t_fspec *s, char *conversion);
+static t_bool	set_precision(t_fspec *s, char *conversion);
+static t_bool	get_zero_padding(char *conversion);
+static void		*free_and_return_null(t_fspec *s);
 
 t_fspec	*parse_conversion(char *conversion)
 {
-	t_fspec *s;
-	ssize_t field_width;
-	ssize_t precision;
+	t_fspec	*s;
 
 	s = malloc(sizeof(t_fspec));
 	if (!s)
@@ -42,28 +39,24 @@ t_fspec	*parse_conversion(char *conversion)
 		s->plus_before_pos = TRUE;
 	if (ft_strchr(conversion, '.'))
 		s->has_dot = TRUE;
-	field_width = get_field_width(conversion);
-	if (field_width < 0)
+	if (set_field_width(s, conversion) == FALSE)
 		return (free_and_return_null(s));
-	s->min_field_width = field_width;
-	precision = get_precision(conversion);
-	if (precision < 0)
+	if (set_precision(s, conversion) == FALSE)
 		return (free_and_return_null(s));
-	s->precision = precision;
 	return (s);
 }
 
-static void *free_and_return_null(t_fspec *s)
+static void	*free_and_return_null(t_fspec *s)
 {
 	free(s);
 	return (NULL);
 }
 
-static ssize_t get_field_width(char *conversion)
+static t_bool	set_field_width(t_fspec *s, char *conversion)
 {
-	size_t i;
-	size_t j;
-	ssize_t num;
+	size_t	i;
+	size_t	j;
+	size_t	num;
 	char	*numstr;
 
 	i = 0;
@@ -72,44 +65,47 @@ static ssize_t get_field_width(char *conversion)
 	{
 		if (ft_strchr("123456789", conversion[i]))
 		{
-			while (i + j < ft_strlen(conversion) && ft_strchr("0123456789", conversion[i + j]))
+			while (i + j < ft_strlen(conversion)
+				&& ft_strchr("0123456789", conversion[i + j]))
 				j++;
 			numstr = ft_substr(conversion, i, j);
 			if (!numstr)
-				return (-1);
+				return (FALSE);
 			num = ft_atoi(numstr);
 			free(numstr);
-			return (num);
+			s->min_field_width = num;
+			return (TRUE);
 		}
 		i++;
 	}
-	return (0);
+	return (TRUE);
 }
 
-static ssize_t get_precision(char *conversion)
+static t_bool	set_precision(t_fspec *s, char *conversion)
 {
-	char *dot;
-	char *numstr;
-	size_t i;
-	size_t num;
+	char	*dot;
+	char	*numstr;
+	size_t	i;
+	size_t	num;
 
 	dot = ft_strchr(conversion, '.');
 	if (!dot)
-		return (0);
+		return (TRUE);
 	i = 0;
 	while (ft_isdigit(dot[i + 1]))
-		i++;	
+		i++;
 	if (!i)
-		return (0);
+		return (TRUE);
 	numstr = ft_substr(dot, 1, i);
 	if (!numstr)
-		return (-1);
+		return (FALSE);
 	num = ft_atoi(numstr);
 	free(numstr);
-	return (num);
+	s->precision = num;
+	return (TRUE);
 }
 
-static t_bool get_zero_padding(char *conversion)
+static t_bool	get_zero_padding(char *conversion)
 {
 	while (*conversion)
 	{

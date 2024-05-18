@@ -6,13 +6,20 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 15:42:12 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/16 15:29:34 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 17:30:29 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft/libft.h"
 #include "ft_printf_bonus.h"
+
+static void	*free_and_return_null(void	*d1)
+{
+	if (d1 != NULL)
+		free(d1);
+	return (NULL);
+}
 
 char	*apply_precision(t_fspec *s, char *num)
 {
@@ -27,10 +34,7 @@ char	*apply_precision(t_fspec *s, char *num)
 	{
 		pre = ft_calloc(s->precision - base_num_len + 1, sizeof(char));
 		if (!pre)
-		{
-			free(num);
-			return (NULL);
-		}
+			return (free_and_return_null(num));
 		ft_memset(pre, '0', s->precision - base_num_len);
 		new_num = ft_strjoin(pre, num);
 		free(pre);
@@ -39,7 +43,8 @@ char	*apply_precision(t_fspec *s, char *num)
 			return (NULL);
 		num = new_num;
 	}
-	 if (ft_strncmp(num, "0", ft_strlen(num)) == 0 && s->has_dot && !s->precision)
+	if (ft_strncmp(num, "0", ft_strlen(num)) == 0
+		&& s->has_dot && !s->precision)
 		*num = 0;
 	float_sign(num);
 	return (num);

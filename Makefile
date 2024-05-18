@@ -6,7 +6,7 @@
 #    By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 14:57:36 by pleander          #+#    #+#              #
-#    Updated: 2024/05/15 15:20:12 by pleander         ###   ########.fr        #
+#    Updated: 2024/05/18 15:45:13 by pleander         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ OBJECTS := $(CFILES:.c=.o)
 BONUS_CFILES := ft_printf_bonus.c \
 	ft_utoa_base_bonus.c \
 	conversions_bonus.c \
+	conversions2_bonus.c \
 	parse_conversion_bonus.c \
 	precision_bonus.c \
 	printers_bonus.c \

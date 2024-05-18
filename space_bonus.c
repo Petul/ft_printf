@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 15:15:27 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/15 16:05:13 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:49:30 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 char	*apply_space_before_pos(t_fspec *s, char *num)
 {
-	char *padded_num;
+	char	*padded_num;
 
 	if (!s->space_before_pos || s->plus_before_pos)
 		return (num);

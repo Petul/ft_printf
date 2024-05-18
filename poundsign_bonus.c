@@ -6,13 +6,30 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:17:43 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/16 15:32:14 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 17:01:05 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft/libft.h"
 #include "ft_printf_bonus.h"
+
+static void	*free_and_return_null(void *d1, void *d2)
+{
+	if (d1 != NULL)
+		free(d1);
+	if (d2 != NULL)
+		free(d2);
+	return (NULL);
+}
+
+static t_bool	char_in_hex_set(char c)
+{
+	if (ft_strchr(BASE_HEX_LOWER, c)
+		|| ft_strchr(BASE_HEX_UPPER, c))
+		return (TRUE);
+	return (FALSE);
+}
 
 char	*apply_alternate_hex_form(t_fspec *s, char *num, char *pre_str)
 {
@@ -24,36 +41,21 @@ char	*apply_alternate_hex_form(t_fspec *s, char *num, char *pre_str)
 	if (s->alternate_form == FALSE)
 		return (num);
 	i = 0;
-	while(num[i] && !(ft_strchr(BASE_HEX_LOWER, num[i]) || ft_strchr(BASE_HEX_UPPER, num[i])))
+	while (num[i] && !char_in_hex_set(num[i]))
 		i++;
 	sub1 = ft_substr(num, 0, i);
 	if (!sub1)
-	{
-		free(num);
-		return (NULL);
-	}
+		return (free_and_return_null(num, NULL));
 	sub2 = ft_substr(num, i, ft_strlen(num) - i);
 	if (!sub2)
-	{
-		free(num);
-		free(sub1);
-		return (NULL);
-	}
+		return (free_and_return_null(sub1, num));
 	new_num = ft_strjoin(sub1, pre_str);
 	free(sub1);
 	if (!new_num)
-	{
-		free(num);
-		free(sub2);
-		return (NULL);
-	}
+		return (free_and_return_null(num, sub2));
 	free(num);
 	num = ft_strjoin(new_num, sub2);
 	free(new_num);
 	free(sub2);
-	if (!num)
-		return (NULL);
 	return (num);
 }
-
-

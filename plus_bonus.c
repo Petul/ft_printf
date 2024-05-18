@@ -6,7 +6,7 @@
 /*   By: pleander <pleander@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:58:17 by pleander          #+#    #+#             */
-/*   Updated: 2024/05/16 15:32:54 by pleander         ###   ########.fr       */
+/*   Updated: 2024/05/18 16:16:38 by pleander         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ char	*apply_plus(t_fspec *s, char *num)
 	free(num);
 	if (!new_num)
 		return (NULL);
-	return(new_num);
+	return (new_num);
 }
