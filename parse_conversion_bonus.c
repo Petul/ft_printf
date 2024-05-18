@@ -17,7 +17,7 @@
 
 static ssize_t get_field_width(char *conversion);
 static ssize_t get_precision(char *conversion);
-static BOOL get_zero_padding(char *conversion);
+static t_bool get_zero_padding(char *conversion);
 static void *free_and_return_null(t_fspec *s);
 
 t_fspec	*parse_conversion(char *conversion)
@@ -109,7 +109,7 @@ static ssize_t get_precision(char *conversion)
 	return (num);
 }
 
-static BOOL get_zero_padding(char *conversion)
+static t_bool get_zero_padding(char *conversion)
 {
 	while (*conversion)
 	{

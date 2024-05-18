@@ -38,7 +38,7 @@ static int	free_and_return_false(t_fspec *s, char *num)
 	return (FALSE);
 }
 
-BOOL	convert_char(char *fstr, size_t len, int data, size_t *written)
+t_bool	convert_char(char *fstr, size_t len, int data, size_t *written)
 {
 	t_fspec *s;
 	char	*str;
@@ -69,7 +69,7 @@ BOOL	convert_char(char *fstr, size_t len, int data, size_t *written)
 	return (TRUE);
 }
 
-BOOL	convert_string(char *fstr, size_t len, char *data, size_t *written)
+t_bool	convert_string(char *fstr, size_t len, char *data, size_t *written)
 {
 	t_fspec	*s;
 	char	*str;
@@ -96,7 +96,7 @@ BOOL	convert_string(char *fstr, size_t len, char *data, size_t *written)
 	return (TRUE);
 }
 
-BOOL	convert_pointer(char *fstr, size_t len, char *data, size_t *written)
+t_bool	convert_pointer(char *fstr, size_t len, char *data, size_t *written)
 {
 	t_fspec *s;
 	char	*num;
@@ -121,7 +121,7 @@ BOOL	convert_pointer(char *fstr, size_t len, char *data, size_t *written)
 	return (TRUE);
 }
 
-BOOL	convert_decimal(char *fstr, size_t len, int data, size_t *written)
+t_bool	convert_decimal(char *fstr, size_t len, int data, size_t *written)
 {
 	t_fspec *s;
 	char	*num;
@@ -151,7 +151,7 @@ BOOL	convert_decimal(char *fstr, size_t len, int data, size_t *written)
 	return (TRUE);
 }
 
-BOOL	convert_unsigned(char *fstr, size_t len, unsigned int data, size_t *written)
+t_bool	convert_unsigned(char *fstr, size_t len, unsigned int data, size_t *written)
 {
 	t_fspec *s;
 	char	*num;
@@ -198,7 +198,7 @@ static char	*convert_hex(t_fspec *s, int data, char *base)
 	return (num);
 }
 
-BOOL	convert_hex_upper(char *fstr, size_t len, int data, size_t *written)
+t_bool	convert_hex_upper(char *fstr, size_t len, int data, size_t *written)
 {
 	t_fspec *s;
 	char	*num;
@@ -222,7 +222,7 @@ BOOL	convert_hex_upper(char *fstr, size_t len, int data, size_t *written)
 	return (TRUE);
 }
 
-BOOL	convert_hex_lower(char *fstr, size_t len, int data, size_t *written)
+t_bool	convert_hex_lower(char *fstr, size_t len, int data, size_t *written)
 {
 	t_fspec *s;
 	char	*num;

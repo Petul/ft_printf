@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include "ft_printf_bonus.h"
 
-BOOL	print_char(int data, size_t *written)
+t_bool	print_char(int data, size_t *written)
 {
 	if (write(STDOUT, &data, 1) < 0)
 		return (FALSE);
@@ -21,7 +21,7 @@ BOOL	print_char(int data, size_t *written)
 	return (TRUE);
 }
 
-BOOL	print_string(char *data, size_t n, size_t *written)
+t_bool	print_string(char *data, size_t n, size_t *written)
 {
 	size_t	i;
 

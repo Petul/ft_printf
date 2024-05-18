@@ -32,11 +32,11 @@ static size_t	get_format_len(char *fstart, char *format)
 	return (len);
 }
 
-BOOL	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
+t_bool	process_fspec(char *fstart, va_list *args, size_t *loc, size_t *written)
 {
 	char	format;
 	size_t	flen;
-	BOOL	t;
+	t_bool	t;
 
 	format = 0;
 	t = TRUE;
@@ -65,7 +65,7 @@ int	ft_printf(const char *fstring, ...)
 	va_list	args;
 	size_t	loc;
 	size_t	written;
-	BOOL	t;
+	t_bool	t;
 
 	va_start(args, fstring);
 	written = 0;
