@@ -54,7 +54,7 @@ t_bool	convert_string(t_fspec *s, char *data, size_t *written)
 
 	if (data == NULL)
 		data = NULL_STR;
-	str = calloc(ft_strlen(data) + 1, sizeof(char));
+	str = ft_calloc(ft_strlen(data) + 1, sizeof(char));
 	if (!str)
 		return (FALSE);
 	ft_memcpy(str, data, ft_strlen(data));
